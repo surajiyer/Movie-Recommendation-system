@@ -1,5 +1,87 @@
-extends layout
-
-block content
-  h1= title
-  p Welcome to #{title}
+doctype html
+html
+  head
+    link(href='https://fonts.googleapis.com/css?family=Open+Sans:400,300|Titillium+Web:400,700', rel='stylesheet', type='text/css')
+    link(rel='stylesheet', type='text/css', href='css/style.css')
+    title Test Movies
+  body
+    .content
+      .grid
+        .moviedivst
+          .movie.1
+            p Movie title 1
+            img(src='')
+            div
+              p.select(tabindex='1') select
+          .movie.2
+            p Movie title 2
+            img(src='')
+            div
+              p.select(tabindex='2') select
+          .movie.3
+            p Movie title 3
+            img(src='')
+            div
+              p.select(tabindex='3') select
+          .movie.4
+            p Movie title 4 
+            img(src='')
+            div
+              p.select(tabindex='4') select
+          .movie.5
+            p Movie title 5
+            img(src='')
+            div
+              p.select(tabindex='5') select
+          .movie.6
+            p Movie title 6
+            img(src='')
+            div
+              p.select(tabindex='6') select
+          .movie.7
+            p Movie title 7
+            img(src='')
+            div
+              p.select(tabindex='7') select
+          .movie.8
+            p Movie title 8
+            img(src='')
+            div
+              p.select(tabindex='8') select
+          .movie.9
+            p Movie title 9
+            img(src='')
+            div
+              p.select(tabindex='9') select
+      h1 Select the movie you would like to see
+      // <img src="movie1.JPG" width="25%" height="25%">
+      .trailer_container
+        #trailer1.moviebox
+          p.moviedescr Movie 1
+          .trailer
+        #trailer2.moviebox
+          p.moviedescr Movie 2
+          .trailer
+        #trailer3.moviebox
+          p.moviedescr Movie 3
+          .trailer
+        #trailer4.moviebox
+          p.moviedescr Movie 4
+          .trailer
+        #trailer5.moviebox
+          p.moviedescr Movie 5
+          .trailer
+        #trailer6.moviebox
+          p.moviedescr Movie 6
+          .trailer
+        #trailer7.moviebox
+          p.moviedescr Movie 7
+          .trailer
+        #trailer8.moviebox
+          p.moviedescr Movie 8
+          .trailer
+        #trailer9.moviebox
+          p.moviedescr Movie 9
+          .trailer
+      script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js')
+      script(type='text/javascript', rel='javascript', src='js/script.js')
