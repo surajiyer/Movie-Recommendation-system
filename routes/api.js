@@ -21,4 +21,14 @@ router.get('/movies', function(req, res, next) {
 	}
 });
 
+/* GET number of movies in database. */
+router.get('/movies-count', function(req, res, next) {
+	var db = req.db;
+  var collection = db.get('movies');
+  collection.count({}, function (err, count) {
+  	if (err) console.error(err);
+  	res.send({'count': count});
+	});
+});
+
 module.exports = router;

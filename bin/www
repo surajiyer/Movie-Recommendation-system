@@ -103,6 +103,6 @@ function onListening() {
 
 function onClose() {
   console.log('Shutting down server');
-  app.db.close();
+  //app.db.close();
   process.exit();
 }

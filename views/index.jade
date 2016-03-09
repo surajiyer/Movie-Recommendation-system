@@ -2,87 +2,28 @@ doctype html
 html
   head
     link(href='https://fonts.googleapis.com/css?family=Open+Sans:400,300|Titillium+Web:400,700', rel='stylesheet', type='text/css')
-	link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
+    link(href='https://fonts.googleapis.com/css?family=Roboto+Condensed', rel='stylesheet', type='text/css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', integrity='sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7', crossorigin='anonymous')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
     link(rel='stylesheet', type='text/css', href='css/style.css')
     title #{title}
   body
     .content
-      .grid
-        .moviedivst
-          .movie.1
-            p Movie title 1
-            img(src='')
-            div
-              p.select(tabindex='1') select
-          .movie.2
-            p Movie title 2
-            img(src='')
-            div
-              p.select(tabindex='2') select
-          .movie.3
-            p Movie title 3
-            img(src='')
-            div
-              p.select(tabindex='3') select
-          .movie.4
-            p Movie title 4 
-            img(src='')
-            div
-              p.select(tabindex='4') select
-          .movie.5
-            p Movie title 5
-            img(src='')
-            div
-              p.select(tabindex='5') select
-          .movie.6
-            p Movie title 6
-            img(src='')
-            div
-              p.select(tabindex='6') select
-          .movie.7
-            p Movie title 7
-            img(src='')
-            div
-              p.select(tabindex='7') select
-          .movie.8
-            p Movie title 8
-            img(src='')
-            div
-              p.select(tabindex='8') select
-          .movie.9
-            p Movie title 9
-            img(src='')
-            div
-              p.select(tabindex='9') select
+      .movies
+      - var n = 1;
+      ul.movieslist
+        while n <= 10
+          li
+            h4.movietitle Movie #{n++}
+            .poster
+              img(src='http://content7.flixster.com/movie/10/93/63/10936393_det.jpg')
+            br
+            a.select Select
       h1 Select the movie you would like to see
-      // <img src="movie1.JPG" width="25%" height="25%">
-      .trailer_container
-        #trailer1.moviebox
-          p.moviedescr Movie 1
+      .trailer-container
+        .moviebox
+          p.moviedescr Movie description
           .trailer
-        #trailer2.moviebox
-          p.moviedescr Movie 2
-          .trailer
-        #trailer3.moviebox
-          p.moviedescr Movie 3
-          .trailer
-        #trailer4.moviebox
-          p.moviedescr Movie 4
-          .trailer
-        #trailer5.moviebox
-          p.moviedescr Movie 5
-          .trailer
-        #trailer6.moviebox
-          p.moviedescr Movie 6
-          .trailer
-        #trailer7.moviebox
-          p.moviedescr Movie 7
-          .trailer
-        #trailer8.moviebox
-          p.moviedescr Movie 8
-          .trailer
-        #trailer9.moviebox
-          p.moviedescr Movie 9
-          .trailer
-	script(src='https://code.jquery.com/jquery-1.12.1.min.js')      
+    script(src='https://code.jquery.com/jquery-1.12.1.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js', integrity='sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS', crossorigin='anonymous')
     script(type='text/javascript', rel='javascript', src='js/script.js')
