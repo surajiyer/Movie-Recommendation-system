@@ -38,9 +38,10 @@ a:link, a:visited, a:hover, a:active {
 	border-radius: 4px;
 }
 
-.movie img:hover {
+.poster:hover {
 	cursor: pointer;
 	background: #808080;
+	opacity: 0.5;
 }
 
 .select {

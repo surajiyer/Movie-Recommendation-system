@@ -5,6 +5,19 @@ $.fn.exists = function () {
 }
 
 $(document).ready(function() {
+	// Load random set of movies
+	loadRandomMovies();
+
+	// Look for trailer when hovering over movie
+	$(".movieslist li .poster").click(function() {
+		var movieName = $(this).find(".movietitle").text();
+		getTrailer(movieName, function(embed) {
+			$(".trailer-container").replaceWith(embed);
+		});
+	});//, function(){});
+});
+
+function loadRandomMovies() {
 	getMoviesCount(function(count) {
 		for (i = 1; i <= nr_of_movies; i++) {
 			var mID = 1 + Math.floor(Math.random() * count);
@@ -16,7 +29,7 @@ $(document).ready(function() {
 			})(i);
 		}
 	});
-});
+}
 
 function getMoviesCount(cb) {
 	$.ajax({
@@ -51,7 +64,8 @@ function getMovieInfo(mID, count, cb) {
 
 function getTrailer(movieName, cb) {
 	// Format the movie name for calling API correctly
-	movieName = movieName.replace(/ /g, "_");
+	console.log(movieName);
+	movieName = movieName.replace(/ /g, "-");
 	console.log(movieName);
 
 	// Call the TrailerAddict API
@@ -63,6 +77,7 @@ function getTrailer(movieName, cb) {
 			'count': 1,
 			'width': 640
 		},
+		crossDomain: true,
 		dataType: 'xml',
 		success: function(data) {
 			data = $.parseXML(data);
@@ -71,7 +86,7 @@ function getTrailer(movieName, cb) {
 			if(embed.exists())
 				cb(embed);
 			else
-				console.log('Error: Could not find trailer');
+				cb('<p>Unfortunately, we could not find any trailer for this movieslist.</p>');
 		},
 		error: function(err) {
 			console.log(err);
