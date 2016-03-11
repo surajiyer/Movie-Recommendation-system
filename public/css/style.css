@@ -67,7 +67,7 @@ a:link, a:visited, a:hover, a:active {
 .trailer-container {
 	display: inline-block;
 	min-width: 640px;
-	min-height: 390px;
+	min-height: 360px;
 	border: 1px solid white;
 	border-radius: 4px;
 	margin: auto;

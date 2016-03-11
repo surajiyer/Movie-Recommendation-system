@@ -79,3 +79,6 @@ node_modules
 
 # Optional MongoDB local data files
 data/[^.]*
+
+# environment variables
+env.js

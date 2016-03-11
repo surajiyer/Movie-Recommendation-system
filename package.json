@@ -1,10 +1,10 @@
 {
   "name": "USE-MRS",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "postinstall": "cd ./node_modules/monk/ && npm install mongodb@1.4.39 --save" 
+    "postinstall": "cd ./node_modules/monk/ && npm install mongodb@1.4.39 --save"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -12,8 +12,9 @@
     "debug": "~2.2.0",
     "express": "~4.13.1",
     "jade": "~1.11.0",
+    "monk": "~1.0.1",
     "morgan": "~1.6.1",
-    "serve-favicon": "~2.3.0",
-    "monk": "~1.0.1"
+    "request": "^2.69.0",
+    "serve-favicon": "~2.3.0"
   }
 }
