@@ -1,10 +1,38 @@
 body {
   background-color: #343d46;
-  /*overflow: hidden;*/
+  overflow: hidden;
+  margin: auto;
+	text-align: center;
+	color: white;
+	padding: 20px;
+	font-weight: 400;
 }
 
 body > * {
 	font-family: 'Roboto Condensed', sans-serif;
+}
+
+::-webkit-scrollbar {
+	width: 6px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: #449d44; 
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+	background: #5cb85c;
 }
 
 a {
@@ -15,13 +43,49 @@ a:link, a:visited, a:hover, a:active {
 	text-decoration: none;
 }
 
+.header {
+	margin-bottom: 20px;
+}
+
+h1.title {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+hr.style-four {
+  height: 12px;
+  border: 0;
+  box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+}
+
+.vertical {
+  -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+  transform: rotate(90deg);
+}
+
+hr.custom {
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
 .content {
 	width: 100%;
-	margin: auto;
-	text-align: center;
-	color: white;
-	padding: 20px;
-	font-weight: 400;
+}
+
+.movies {
+	height: 90vh;
+	overflow-y: scroll;
+	-moz-box-shadow: inset 0 0 10px #000000;
+	-webkit-box-shadow: inset 0 0 10px #000000;
+	box-shadow: inset 0 0 10px #000000;
+}
+
+.movieslist {
+	padding-left: 0px;
 }
 
 .movieslist > li {
@@ -30,12 +94,19 @@ a:link, a:visited, a:hover, a:active {
 	margin-left: 2.5%;
 }
 
+.movietitle {
+	width: 180px;
+}
+
 .poster {
 	display: inline-block;
-	min-width: 180px;
-	min-height: 256px;
-	border: 0.25px solid white;
+	width: 180px;
+	height: 256px;
+	border: 0.25px solid #5cb85c;
 	border-radius: 4px;
+	background-image: url('http://content7.flixster.com/movie/10/93/63/10936393_det.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .poster:hover {
@@ -45,49 +116,31 @@ a:link, a:visited, a:hover, a:active {
 }
 
 .select {
-	display: inline-block;
-	font-size: 18px;
-	border: 0.25px solid white;
-	border-radius: 4px;
-	padding: 2px;
-	padding-left: 4px;
-	padding-right: 4px;
-	text-align: center;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	text-decoration: none;
 }
 
-.select:hover {
-	cursor: pointer;
-	background-color: white;
-	color: #080808;
+.movie-descr {
+	margin: auto;
+	padding: 0;
+	padding-left: 20px;
 }
 
 .trailer-container {
-	display: inline-block;
-	min-width: 640px;
-	min-height: 360px;
-	border: 1px solid white;
-	border-radius: 4px;
-	margin: auto;
-	margin-top: 10px;
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+  border: 1px solid #5cb85c;
+  -webkit-box-shadow: 0 8px 6px -6px black;
+	-moz-box-shadow: 0 8px 6px -6px black;
+	box-shadow: 0 8px 6px -6px black;
 }
 
-.moviebox {
-	display: none;
-	width: 100%;
-}
-
-.trailer {
-	display: block;
-	width: 75%;
-	height: 350px;
-	border: 0.25px solid white;
-	background-color: #808080;
-}
-
-.moviedescr {
-	float: right;
-	margin-right: 50px;
+.video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }

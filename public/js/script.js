@@ -1,5 +1,5 @@
 var nr_of_movies = $('.movieslist li').length;
-var movieIds = [];
+var movies = [];
 var serverUrl = 'http://localhost:3000';
 
 $.fn.exists = function () {
@@ -16,12 +16,12 @@ $(document).ready(function() {
 		var moviePos = $(this).parent().index();
 
 		// If a trailer key exists
-		if(movieIds[moviePos].trailerKey) {
-			loadTrailer(movieIds[moviePos].trailerKey);
+		if(movies[moviePos].trailerKey) {
+			loadTrailer(movies[moviePos].trailerKey);
 		} else {
 			(function(pos) {
-				getTrailer(movieIds[pos].id, function(trailerKey) {
-					movieIds[pos].trailerKey = trailerKey;
+				getTrailer(movies[pos].id, function(trailerKey) {
+					movies[pos].trailerKey = trailerKey;
 					loadTrailer(trailerKey);
 				});
 			})(moviePos);
@@ -33,15 +33,15 @@ function loadRandomMovies() {
 	getMoviesCount(function(count) {
 		for (i = 0; i < nr_of_movies; i++) {
 			var mID = 1 + Math.floor(Math.random() * count);
-			movieIds[i] = {
+			movies[i] = {
 				'id': mID
 			};
 			(function(itemNr) {
 				getMovieInfo(mID, count, function(movieInfo) {
-					movieIds[itemNr].title = movieInfo.title;
+					movies[itemNr].title = movieInfo.title;
 					itemNr++;
 					$(".movieslist li:nth-child("+itemNr+") .movietitle").text(movieInfo.title);
-	    		$(".movieslist li:nth-child("+itemNr+") .poster img").attr("src", movieInfo.rtPictureURL);
+	    		$(".movieslist li:nth-child("+itemNr+") .poster").css('background-image', 'url('+movieInfo.rtPictureURL+')');
 				});
 			})(i);
 		}
@@ -81,7 +81,8 @@ function getMovieInfo(mID, count, cb) {
 
 function loadTrailer(key) {
 	// Create and place the embed code on the page
-	var embed = '<iframe width="640" height="360" src="https://www.youtube.com/embed/'+key+'" frameborder="0" allowfullscreen></iframe>'
+	//var embed = '<iframe width="640" height="360" src="https://www.youtube.com/embed/'+key+'" frameborder="0" allowfullscreen></iframe>'
+	var embed = '<iframe src="https://www.youtube.com/embed/'+key+'" frameborder="0" allowfullscreen class="video"></iframe>'
 	$('.trailer-container').html(embed);
 }
 

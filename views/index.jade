@@ -8,22 +8,22 @@ html
     link(rel='stylesheet', type='text/css', href='css/style.css')
     title #{title}
   body
+    .header
+      h1.title Select the movie you would like to see
+      hr.style-four.custom
     .content
-      .movies
-      - var n = 1;
-      ul.movieslist
-        while n <= 10
-          li
-            h4.movietitle Movie #{n++}
-            .poster
-              img(src='http://content7.flixster.com/movie/10/93/63/10936393_det.jpg')
-            br
-            a.select Select
-      h1 Select the movie you would like to see
-      .trailer-container
-        .moviebox
-          p.moviedescr Movie description
-          .trailer
+      .movies.col-xs-5
+        - var n = 1;
+        ul.movieslist
+          while n <= 10
+            li
+              h4.movietitle Movie #{n++}
+              .poster
+              br
+              button.btn.btn-success.select(type='button') Select
+      .movie-descr.col-xs-7
+        .trailer-container
+        .movie-info
     script(src='https://code.jquery.com/jquery-1.12.1.min.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js', integrity='sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS', crossorigin='anonymous')
     script(type='text/javascript', rel='javascript', src='js/script.js')

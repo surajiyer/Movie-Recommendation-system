@@ -8,9 +8,10 @@ var monk = require('monk');
 var app = express();
 var routes = require('./routes/index');
 var api = require('./routes/api');
+if (app.get('env') === 'development') env = require('./env.js');
 
 // connect to database
-var db = monk(process.env.MONGO_URL || 'localhost:27017/mrs');
+var db = monk(process.env.MONGO_URL);
 app.db = db;
 
 // view engine setup

@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var env = require('../env.js');
 var request = require('request');
 
 /* GET movies by movie _id or imdbID. */
@@ -72,7 +71,6 @@ function getTrailer(id, res, next) {
 		json: true
 	}, function(err, response, data) {
 		if(err || response.statusCode != 200) return next(err);
-		console.log(data);
 		var videos = data.results
 		for (var i in videos) {
 			var video = videos[i];
