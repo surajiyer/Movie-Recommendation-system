@@ -1,0 +1,438 @@
+extends layout
+
+block head
+  link(rel='stylesheet', type='text/css', href='css/style-intro.css')
+
+block content
+  .header
+    h2.title Please indicate how much you agree or diasgree with the following statements
+    hr.style-four.custom
+  .content
+    #qns.col-xs-8
+      table
+        tbody
+          tr
+            th(style='text-align: left; font-size:24px; color: #5cb85c;')
+              | About
+              | the interface and making choices
+            th(width='80px', style='text-align: center;') Strongly disagree
+            th(width='80px', style='text-align: center;')
+            th(width='80px', style='text-align: center;') Neutral
+            th(width='80px', style='text-align: center;')
+            th(width='80px', style='text-align: center;') Strongly agree
+          tr.qn
+            td(style='text-align: left;')
+              | The interface made me more aware of my
+              | preferences.
+            td
+              input(name='qn1', type='radio', value=1)
+            td
+              input(name='qn1', type='radio', value=2)
+            td
+              input(name='qn1', type='radio', value=3)
+            td
+              input(name='qn1', type='radio', value=4)
+            td
+              input(name='qn1', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | The interface provided a convenient
+              | method to teach the system about my range of preferences.
+            td
+              input(name='qn2', type='radio', value=1)
+            td
+              input(name='qn2', type='radio', value=2)
+            td
+              input(name='qn2', type='radio', value=3)
+            td
+              input(name='qn2', type='radio', value=4)
+            td
+              input(name='qn2', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | It was easy to let the system know my
+              | preferences by using this interface.
+            td
+              input(name='qn3', type='radio', value=1)
+            td
+              input(name='qn3', type='radio', value=2)
+            td
+              input(name='qn3', type='radio', value=3)
+            td
+              input(name='qn3', type='radio', value=4)
+            td
+              input(name='qn3', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | This interface helped me express my
+              | preferences.
+            td
+              input(name='qn4', type='radio', value=1)
+            td
+              input(name='qn4', type='radio', value=2)
+            td
+              input(name='qn4', type='radio', value=3)
+            td
+              input(name='qn4', type='radio', value=4)
+            td
+              input(name='qn4', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;') Using the interface was effortful.
+            td
+              input(name='qn5', type='radio', value=1)
+            td
+              input(name='qn5', type='radio', value=2)
+            td
+              input(name='qn5', type='radio', value=3)
+            td
+              input(name='qn5', type='radio', value=4)
+            td
+              input(name='qn5', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | I had to interact a lot with the system
+              | to make an informed choice.
+            td
+              input(name='qn6', type='radio', value=1)
+            td
+              input(name='qn6', type='radio', value=2)
+            td
+              input(name='qn6', type='radio', value=3)
+            td
+              input(name='qn6', type='radio', value=4)
+            td
+              input(name='qn6', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | Indicating my preferences took little
+              | time using this interface.
+            td
+              input(name='qn7', type='radio', value=1)
+            td
+              input(name='qn7', type='radio', value=2)
+            td
+              input(name='qn7', type='radio', value=3)
+            td
+              input(name='qn7', type='radio', value=4)
+            td
+              input(name='qn7', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | Choosing which movie I would like to
+              | watch was pleasant with this interface.
+            td
+              input(name='qn8', type='radio', value=1)
+            td
+              input(name='qn8', type='radio', value=2)
+            td
+              input(name='qn8', type='radio', value=3)
+            td
+              input(name='qn8', type='radio', value=4)
+            td
+              input(name='qn8', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | Understanding the interface was
+              | easy.
+            td
+              input(name='qn9', type='radio', value=1)
+            td
+              input(name='qn9', type='radio', value=2)
+            td
+              input(name='qn9', type='radio', value=3)
+            td
+              input(name='qn9', type='radio', value=4)
+            td
+              input(name='qn9', type='radio', value=5)
+          // a-qns with trailers
+          tr.qn
+            td(style='text-align: left;')
+              | The possibility of watching trailers
+              | helped me to choose a movie.
+            td
+              input(name='qn10', type='radio', value=1)
+            td
+              input(name='qn10', type='radio', value=2)
+            td
+              input(name='qn10', type='radio', value=3)
+            td
+              input(name='qn10', type='radio', value=4)
+            td
+              input(name='qn10', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | I used the possibility to watch
+              | trailers a lot.
+            td
+              input(name='qn11', type='radio', value=1)
+            td
+              input(name='qn11', type='radio', value=2)
+            td
+              input(name='qn11', type='radio', value=3)
+            td
+              input(name='qn11', type='radio', value=4)
+            td
+              input(name='qn11', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | The presence of trailers was
+              | pleasant.
+            td
+              input(name='qn12', type='radio', value=1)
+            td
+              input(name='qn12', type='radio', value=2)
+            td
+              input(name='qn12', type='radio', value=3)
+            td
+              input(name='qn12', type='radio', value=4)
+            td
+              input(name='qn12', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | Reading additional information is more
+              | important than watching a trailer in making a choice.
+            td
+              input(name='qn13', type='radio', value=1)
+            td
+              input(name='qn13', type='radio', value=2)
+            td
+              input(name='qn13', type='radio', value=3)
+            td
+              input(name='qn13', type='radio', value=4)
+            td
+              input(name='qn13', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | Watching trailers took a lot of
+              | effort.
+            td
+              input(name='qn14', type='radio', value=1)
+            td
+              input(name='qn14', type='radio', value=2)
+            td
+              input(name='qn14', type='radio', value=3)
+            td
+              input(name='qn14', type='radio', value=4)
+            td
+              input(name='qn14', type='radio', value=5)
+          //- b-qns without trailers
+            tr.qn
+              td(style='text-align: left;')
+                | I had enough information to make a
+                | choice.
+              td
+                input(name='qn10b', type='radio', value=1)
+              td
+                input(name='qn10b', type='radio', value=2)
+              td
+                input(name='qn10b', type='radio', value=3)
+              td
+                input(name='qn10b', type='radio', value=4)
+              td
+                input(name='qn10b', type='radio', value=5)
+            tr.qn
+              td(style='text-align: left;')
+                | It was effortful to read through enough
+                | information to make a good choice.
+              td
+                input(name='qn11b', type='radio', value=1)
+              td
+                input(name='qn11b', type='radio', value=2)
+              td
+                input(name='qn11b', type='radio', value=3)
+              td
+                input(name='qn11b', type='radio', value=4)
+              td
+                input(name='qn11b', type='radio', value=5)
+            tr.qn
+              td(style='text-align: left;')
+                | I would have liked to have more visual
+                | information about the movies, like photos or a trailer.
+              td
+                input(name='qn12b', type='radio', value=1)
+              td
+                input(name='qn12b', type='radio', value=2)
+              td
+                input(name='qn12b', type='radio', value=3)
+              td
+                input(name='qn12b', type='radio', value=4)
+              td
+                input(name='qn12b', type='radio', value=5)
+          tr
+            th(style='text-align: left; font-size:24px; color: #5cb85c;')
+              | About
+              | the recommendations
+            th(width='80px')
+            th(width='80px')
+            th(width='80px')
+            th(width='80px')
+            th(width='80px')
+          tr.qn
+            td(style='text-align: left;')
+              | The system recommended me a lot of
+              | similar movies.
+            td
+              input(name='qn15', type='radio', value=1)
+            td
+              input(name='qn15', type='radio', value=2)
+            td
+              input(name='qn15', type='radio', value=3)
+            td
+              input(name='qn15', type='radio', value=4)
+            td
+              input(name='qn15', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | I was recommended a varied selection of
+              | movies.
+            td
+              input(name='qn16', type='radio', value=1)
+            td
+              input(name='qn16', type='radio', value=1)
+            td
+              input(name='qn16', type='radio', value=1)
+            td
+              input(name='qn16', type='radio', value=1)
+            td
+              input(name='qn16', type='radio', value=1)
+          tr.qn
+            td(style='text-align: left;')
+              | The recommended list of movies suits a
+              | broad set of tastes.
+            td
+              input(name='qn17', type='radio', value=1)
+            td
+              input(name='qn17', type='radio', value=2)
+            td
+              input(name='qn17', type='radio', value=3)
+            td
+              input(name='qn17', type='radio', value=4)
+            td
+              input(name='qn17', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | The recommended list of movies contains
+              | a lot of movies I would like to watch.
+            td
+              input(name='qn18', type='radio', value=1)
+            td
+              input(name='qn18', type='radio', value=2)
+            td
+              input(name='qn18', type='radio', value=3)
+            td
+              input(name='qn18', type='radio', value=4)
+            td
+              input(name='qn18', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | I would recommend this system to my
+              | friends.
+            td
+              input(name='qn19', type='radio', value=1)
+            td
+              input(name='qn19', type='radio', value=2)
+            td
+              input(name='qn19', type='radio', value=3)
+            td
+              input(name='qn19', type='radio', value=4)
+            td
+              input(name='qn19', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | The recommended list contains a lot of
+              | satisfactory movies.
+            td
+              input(name='qn20', type='radio', value=1)
+            td
+              input(name='qn20', type='radio', value=2)
+            td
+              input(name='qn20', type='radio', value=3)
+            td
+              input(name='qn20', type='radio', value=4)
+            td
+              input(name='qn20', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | I was recommended a lot of movies I did
+              | not expect.
+            td
+              input(name='qn21', type='radio', value=1)
+            td
+              input(name='qn21', type='radio', value=2)
+            td
+              input(name='qn21', type='radio', value=3)
+            td
+              input(name='qn21', type='radio', value=4)
+            td
+              input(name='qn21', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | Many of the recommended movies were not
+              | familiar to me.
+            td
+              input(name='qn22', type='radio', value=1)
+            td
+              input(name='qn22', type='radio', value=2)
+            td
+              input(name='qn22', type='radio', value=3)
+            td
+              input(name='qn22', type='radio', value=4)
+            td
+              input(name='qn22', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | The recommended movies are pleasantly
+              | surprising.
+            td
+              input(name='qn23', type='radio', value=1)
+            td
+              input(name='qn23', type='radio', value=2)
+            td
+              input(name='qn23', type='radio', value=3)
+            td
+              input(name='qn23', type='radio', value=4)
+            td
+              input(name='qn23', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | The list of recommended movies contains
+              | many movies I would not have thought to consider.
+            td
+              input(name='qn24', type='radio', value=1)
+            td
+              input(name='qn24', type='radio', value=2)
+            td
+              input(name='qn24', type='radio', value=3)
+            td
+              input(name='qn24', type='radio', value=4)
+            td
+              input(name='qn24', type='radio', value=5)
+          tr.qn
+            td(style='text-align: left;')
+              | I will probably watch one of the movies
+              | that was recommended to me.
+            td
+              input(name='qn25', type='radio', value=1)
+            td
+              input(name='qn25', type='radio', value=2)
+            td
+              input(name='qn25', type='radio', value=3)
+            td
+              input(name='qn25', type='radio', value=4)
+            td
+              input(name='qn25', type='radio', value=5)
+    .col-xs-4
+      h4 Final recommendation set
+      .movies
+        - var n = 1;
+        ul.movieslist
+          while n <= 5
+            li
+              .cover
+                h4
+                  strong.movietitle Movie #{n++}
+                h4
+                  strong.movieyear
+      button#finish.btn.btn-primary.btn-lg(type='button') Finish 
+        i.fa.fa-paper-plane-o
+  script(type='text/javascript', rel='javascript', src='js/script-finish.js')

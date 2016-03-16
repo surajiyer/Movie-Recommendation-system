@@ -1,29 +1,30 @@
-doctype html
-html
-  head
-    link(href='https://fonts.googleapis.com/css?family=Open+Sans:400,300|Titillium+Web:400,700', rel='stylesheet', type='text/css')
-    link(href='https://fonts.googleapis.com/css?family=Roboto+Condensed', rel='stylesheet', type='text/css')
-    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', integrity='sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7', crossorigin='anonymous')
-    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
-    link(rel='stylesheet', type='text/css', href='css/style.css')
-    title #{title}
-  body
-    .header
-      h1.title Select the movie you would like to see
-      hr.style-four.custom
-    .content
-      .movies.col-xs-5
-        - var n = 1;
-        ul.movieslist
-          while n <= 10
-            li
-              h4.movietitle Movie #{n++}
-              .poster
-              br
-              button.btn.btn-success.select(type='button') Select
-      .movie-descr.col-xs-7
-        .trailer-container
-        .movie-info
-    script(src='https://code.jquery.com/jquery-1.12.1.min.js')
-    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js', integrity='sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS', crossorigin='anonymous')
-    script(type='text/javascript', rel='javascript', src='js/script.js')
+extends layout
+
+block head
+  link(rel='stylesheet', type='text/css', href='css/style-index.css')
+
+block content
+  .header
+    h2.title Select the movie you would like to see
+    hr.style-four.custom
+  .content
+    .movies.col-xs-5
+      - var n = 1;
+      ul.movieslist
+        while n <= 10
+          li
+            .cover
+              h4
+                strong.movietitle Movie #{n++}
+              h4
+                strong.movieyear
+            br
+            button.btn.btn-success.select(type='button') Select
+    .movie-descr.col-xs-7
+      h4.stitched Remaining number of choices:  
+        p#remNrOfChoices(style="display:inline")
+          u
+            strong
+      .trailer-container
+      .movie-info
+  script(type='text/javascript', rel='javascript', src='js/script-index.js')
