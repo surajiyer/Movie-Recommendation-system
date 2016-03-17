@@ -6,25 +6,39 @@ block head
 block content
   .header
     h2.title Select the movie you would like to see
-    hr.style-four.custom
+    hr.style-four
   .content
-    .movies.col-xs-5
-      - var n = 1;
-      ul.movieslist
-        while n <= 10
-          li
-            .cover
-              h4
-                strong.movietitle Movie #{n++}
-              h4
-                strong.movieyear
-            br
-            button.btn.btn-success.select(type='button') Select
-    .movie-descr.col-xs-7
+    .container-fluid
       h4.stitched Remaining number of choices:  
         p#remNrOfChoices(style="display:inline")
           u
             strong
-      .trailer-container
-      .movie-info
+    .movie-descr.container-fluid
+      .trailer-container.col-xs-6
+        .trailer.bottom-shadow
+      .movie-info.col-xs-6
+        h4.bottom-border Summary
+        p#moviesummary {summary}
+        h4.bottom-border Genres
+        p#moviegenres {genres}
+        h4.bottom-border Director
+        p#moviedirector {director}
+        h4.bottom-border Cast
+        p#moviecast {cast}
+    .movies.container-fluid.inset-shadow
+      - var n = 1;
+      ul.movieslist
+        while n++ <= 10
+          li
+            .cover.shadow
+              h4.covertext
+                strong.movietitle {title}
+              h4.covertext
+                strong.movieyear {year}
+              h4.covertext Hover for trailer 
+                i.fa.fa-film
+            br
+            button.btn.btn-primary.select(type='button') Select
+  .footer
+    hr.style-four.upside-down
   script(type='text/javascript', rel='javascript', src='js/script-index.js')

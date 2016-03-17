@@ -5,14 +5,16 @@ block head
 
 block content
   .header
-    h2.title Please indicate how much you agree or diasgree with the following statements
-    hr.style-four.custom
+    h2.title Survey
+    hr.style-four
   .content
-    #qns.col-xs-8
+    h3 Please indicate how much you agree or diasgree with the following statements
+    #qns
+      //-.col-xs-8
       table
         tbody
           tr
-            th(style='text-align: left; font-size:24px; color: #5cb85c;')
+            th.table-row-heading
               | About
               | the interface and making choices
             th(width='80px', style='text-align: center;') Strongly disagree
@@ -259,7 +261,7 @@ block content
               td
                 input(name='qn12b', type='radio', value=5)
           tr
-            th(style='text-align: left; font-size:24px; color: #5cb85c;')
+            th.table-row-heading
               | About
               | the recommendations
             th(width='80px')
@@ -421,18 +423,21 @@ block content
               input(name='qn25', type='radio', value=4)
             td
               input(name='qn25', type='radio', value=5)
-    .col-xs-4
+    //-.col-xs-4
       h4 Final recommendation set
       .movies
         - var n = 1;
         ul.movieslist
-          while n <= 5
+          while n++ <= 5
             li
               .cover
-                h4
-                  strong.movietitle Movie #{n++}
-                h4
-                  strong.movieyear
-      button#finish.btn.btn-primary.btn-lg(type='button') Finish 
-        i.fa.fa-paper-plane-o
+                h4.covertext
+                  strong.movietitle {title}
+                h4.covertext
+                  strong.movieyear {year}
+            n++
+  .footer
+    hr.style-four.upside-down
+    button#finish.btn.btn-primary.btn-lg(type='button') Finish 
+      i.fa.fa-paper-plane-o
   script(type='text/javascript', rel='javascript', src='js/script-finish.js')

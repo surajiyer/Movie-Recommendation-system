@@ -8,7 +8,9 @@ $(document).ready(function() {
 
 	// Make sure client wants leave
   $(window).on('beforeunload', function() {
-    return 'We would really appreciate it if you could complete this survey for our course project. It means a lot to us. Thank you.';
+    if(confirmUnload)
+      return 'We would really appreciate it if you could complete this survey for our course project.'
+            + ' You can also come back to complete it later on from where you left.';
   });
 });
 
@@ -24,6 +26,7 @@ function start() {
     },
     dataType: 'json',
     success: function(result) {
+      confirmUnload = false;
       location.reload();
     },
     error: function(err) {

@@ -4,6 +4,15 @@ var router = express.Router();
 var utils = require('./utils.js');
 var title = ' | MRS';
 
+router.get('/finish', function(req, res, next) {
+  res.render('survey', {
+    title: 'Final survey' + title,
+    data: {
+      userid: 'iyer'
+    }
+  });
+});
+
 /* GET error if no user id specified in URL. */
 router.get('/', function(req, res, next) {
   next(new Error("Please type in some unique user ID at the end of the URL after the '/'"));
@@ -23,8 +32,7 @@ router.get('/:id', function(req, res, next) {
       return users.insert({
         _id: userID,
         choiceNumber: -1,
-        movies: [],
-        finished: false
+        movies: []
       }, function(err) {
         if (err) return next(err);
         res.render('intro', {
@@ -54,23 +62,14 @@ router.get('/:id', function(req, res, next) {
           // Finish page
           res.render('finish', { 
             title: 'Finished' + title,
-            data: {
-              userid: userID
-            }
+            data: { userid: userID }
           });
         } else {
           // Survey page
-          if(doc.movies) {
-            res.render('survey', {
-              title: 'Final survey' + title,
-              data: {
-                userid: userID,
-                movies: doc.movies
-              }
-            });
-          } else {
-            utils.sendErr(res, 'This should not occur.');
-          }
+          res.render('survey', {
+            title: 'Final survey' + title,
+            data: { userid: userID }
+          });
         }
         break;
 

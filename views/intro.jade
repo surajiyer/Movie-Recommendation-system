@@ -6,26 +6,27 @@ block head
 block content
 	.header
 		h2.title Movie Recommendation System User Study
-		hr.style-four.custom
-	.content
-		.instructions(style='text-align: left;')
-			h2 Welcome,
-			p This document gives you information about movie preferences study. Before the study begins, it is important that you learn about the procedure followed in this study and that you give your informed consent for voluntary participation. Please read this document carefully.
-			p The aim of this study is to test a way in which one can indicate movie preferences to a recommender system. This study is performed by Bianca Ligt, Daniëlle Niestadt, Suraj Iyer, Shivam Rastogi, Niek van Sleeuwen and Olivier van Duuren for the USE ‘Human in Technology’ course, under the supervision of dr.ir. Martijn Willemsen of the Human-Technology Interaction group.
-			p Your participation is completely voluntary. You can refuse to participate without indicating any reasons and you can stop your participation at any time during the study by closing the browser. You can also withdraw your permission to use your experimental date for up to 24 hours after the study is finished. All this will have no negative consequences whatsoever.
-			p All research conducted at the Human-Technology Interaction Group adheres to the Code of Ethics of the NIP (Nederlands Instituut voor Psychologen – Dutch Institute for Psychologists). We will not be sharing any personal information about you to anyone outside the research team. The information that we collect from this research project is used for writing scientific publications and will be reported at group level. It will be completely anonymous and it cannot be traced back to you.
-			p If you want more information about this study you can ask Bianca Ligt (
-				a(href='mailto:b.ligt@student.tue.nl') b.ligt@student.tue.nl
-				| ) by sending an e-mail. If you have any complaints about this study, please contact the supervisor, dr.ir. Martijn Willemsen (
-				a(href='mailto:M.C.Willemsen@tue.nl') M.C.Willemsen@tue.nl
-				| )
-			h2 Explanation
-			p In this phase, we ask you to choose between several movies to help the system learn about your movie preferences. This means that a list of movies will be shown to you and you have to choose the one you would like to watch. You might not know all these movies, but should choose the movie you think that fits your preference best. Additional information about the movie is also available. Every time you make a choice, the system will use your previous answers to generate a next question.
-			p We ask you to make a total of 10 movie choices. Upon choosing the last movie, you will automatically continue to the next step. Please acknowledge that once you made a choice, you cannot go back!
-			p If you would like to see the trailer of a movie for more information, you can click your mouse over the film cover.
-			p When you’ve made all the choices, you get a movie as your final recommendation. After this, you will have to fill a short questionnaire about the system and the recommendations. Finally click on finish when you are done to save the results.
-			p By clicking the ‘Start’ button, you confirm that you understand the methods used in this research and you confirm your participation in this research from the Human-Technology Interaction group.
-			h2 Thank you.
+		hr.style-four
+	.content(style='text-align: left;')
+		h2 Welcome,
+		p This document gives you information about movie preferences study. Before the study begins, it is important that you learn about the procedure followed in this study and that you give your informed consent for voluntary participation. Please read this document carefully.
+		p The aim of this study is to test a way in which one can indicate movie preferences to a recommender system. This study is performed by Bianca Ligt, Daniëlle Niestadt, Suraj Iyer, Shivam Rastogi, Niek van Sleeuwen and Olivier van Duuren for the USE ‘Human in Technology’ course, under the supervision of dr.ir. Martijn Willemsen of the Human-Technology Interaction group.
+		p Your participation is completely voluntary. You can refuse to participate without indicating any reasons and you can stop your participation at any time during the study by closing the browser. You can also withdraw your permission to use your experimental date for up to 24 hours after the study is finished. All this will have no negative consequences whatsoever.
+		p All research conducted at the Human-Technology Interaction Group adheres to the Code of Ethics of the NIP (Nederlands Instituut voor Psychologen – Dutch Institute for Psychologists). We will not be sharing any personal information about you to anyone outside the research team. The information that we collect from this research project is used for writing scientific publications and will be reported at group level. It will be completely anonymous and it cannot be traced back to you.
+		p If you want more information about this study you can ask Bianca Ligt (
+			a(href='mailto:b.ligt@student.tue.nl') b.ligt@student.tue.nl
+			| ) by sending an e-mail. If you have any complaints about this study, please contact the supervisor, dr.ir. Martijn Willemsen (
+			a(href='mailto:M.C.Willemsen@tue.nl') M.C.Willemsen@tue.nl
+			| )
+		h2 Explanation
+		p In this phase, we ask you to choose between several movies to help the system learn about your movie preferences. This means that a list of movies will be shown to you and you have to choose the one you would like to watch. You might not know all these movies, but should choose the movie you think that fits your preference best. Additional information about the movie is also available. Every time you make a choice, the system will use your previous answers to generate a next question.
+		p We ask you to make a total of 10 movie choices. Upon choosing the last movie, you will automatically continue to the next step. Please acknowledge that once you made a choice, you cannot go back!
+		p If you would like to see the trailer of a movie for more information, you can hover the mouse cursor over the film cover.
+		p When you’ve made all the choices, you get a list of movies as your final recommendation. Kindly select which movie you prefer the best from this list. After this, you will have to fill a short questionnaire about the system and the recommendations. Lastly, don't forget to click on the ‘Finish’ button when you are done to save the results.
+		p By clicking the ‘Start’ button, you confirm that you understand the methods used in this research and you confirm your participation in this research from the Human-Technology Interaction group.
+		h2 Thank you.
+	.footer
+		hr.style-four.upside-down
 		button#start.btn.btn-primary.btn-lg(type='button') Start 
 			i.fa.fa-chevron-right
 	script(type='text/javascript', rel='javascript', src='js/script-intro.js')
