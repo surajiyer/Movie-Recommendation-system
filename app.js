@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var monk = require('monk');
 var app = express();
+var useragent = require('express-useragent');
 var routes = require('./routes/index');
 var api = require('./routes/api');
 if (app.get('env') === 'development') env = require('./env.js');
@@ -25,6 +26,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(useragent.express());
+
+// Enable CORS
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
 
 // Make our db accessible to our routes
 app.use(function(req,res,next){

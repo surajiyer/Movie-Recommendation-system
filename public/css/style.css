@@ -12,6 +12,10 @@ body {
   width: 6px;
 }
 
+::-webkit-scrollbar:horizontal{
+  height: 10px;
+}
+
 /* Track */
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
@@ -62,7 +66,7 @@ a:hover, a:active {
 }
 
 .style-four {
-  margin: 10px 0 10px 0;
+  margin: 10px 0 5px 0;
   margin-left: calc(-50vw + 50%);
   margin-right: calc(-50vw + 50%);
   height: 12px;
@@ -81,75 +85,27 @@ a:hover, a:active {
   height: 80vh;
   margin-left: auto;
   margin-right: auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  .content {
+    width: 100%;
+  }
+}
+
+.header, .footer {
+  z-index: 100;
+}
+
+#start, #agree, #finish {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .container-fluid {
   margin-bottom: 20px;
-}
-
-.movies {
-  display: inline-block;
-  height: 350px;
-  margin-left: calc(-50vw + 50%);
-  margin-right: calc(-50vw + 50%);
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-
-.movieslist {
-  padding: 20px;
-}
-
-.movieslist > li {
-  display: inline-block;
-  margin-right: 2.5%;
-  margin-left: 2.5%;
-}
-
-.cover {
-  position: relative;
-  display: inline-block;
-  padding: 5px;
-  width: 180px;
-  height: 256px;
-  text-align: center;
-  border: 0.25px solid #2F353F;
-  border-radius: 4px;
-  background: url('http://marvelmoviemarathon.com/posters/placeholder.png') no-repeat;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  background-position: center center;
-  cursor: pointer;
-}
-
-.cover:hover {
-  background-color: #f0f0f0;
-  background-blend-mode: screen;
-  background-size: 140%;
-  transition: background-color .5s ease;
-}
-
-.covertext {
-  color: black;
-  opacity: 0;
-  margin-top: 4px;
-  margin-bottom: 4px;
-}
-
-.cover:hover .covertext {
-  opacity: 1;
-}
-
-.movie-info {
-  height: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-
-.movie-info p {
-  text-align: left;
 }
 
 .shadow {
@@ -189,4 +145,12 @@ a:hover, a:active {
 
 .fa.fa-check-circle-o {
   color: #5cb85c;
+}
+
+.wordwrap { 
+  white-space: pre-wrap;      /* CSS3 */   
+  white-space: -moz-pre-wrap; /* Firefox */    
+  white-space: -pre-wrap;     /* Opera <7 */   
+  white-space: -o-pre-wrap;   /* Opera 7 */    
+  word-wrap: break-word;      /* IE */
 }

@@ -11,11 +11,27 @@ var pad = function(str, max) {
 /**
  * Send an error response.
  */
-var sendErr = function sendErr(res, msg) {
-	res.status(500).send({ error: msg });
+var sendErr = function(res, msg) {
+	res.status(500).json({ 'success': false, 'result': msg });
+};
+
+/**
+ * Log events
+ */
+var updateEvent = function(db, event, eventdesc, userid, res) {
+	var events = db.get('events');
+	events.insert({
+		timestamp: new Date(), 
+		event: event, 
+		decr: eventdesc, 
+		userid: userid
+	}, function(err) {
+		if (err) return sendErr(res, 'Failed to log event.');
+	});
 };
 
 module.exports = {
 	pad: pad,
-	sendErr: sendErr
+	sendErr: sendErr,
+	updateEvent: updateEvent
 };

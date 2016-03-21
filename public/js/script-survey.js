@@ -1,20 +1,15 @@
 "use strict";
+var nrOfQns = $('.qn').length;
 var userid = data.userid;
 
 $(document).ready(function() {
-  // Display the instructions
-  $('.explanation, #start').hide();
-  $('#agree').click(function() {
-    postEvent('Clicked "Agree"', null);
-    $('.consent-request').fadeOut("slow", function() {
-      $('.consent-request, #agree').hide();
-      $('.explanation, #start').show().fadeIn("slow");
-    });
-  });
-
-  $('#start').click(function() {
-    postEvent('Clicked "Start"', null);
-		start();
+	$('#finish').click(function() {
+		if(isSurveyComplete()) {
+      postEvent('Clicked "Finish"', null);
+			finish();
+    }
+		else 
+			alert("Oops! Looks like the some questions haven't been answered yet.");
 	});
 
 	// Make sure client wants leave
@@ -30,24 +25,42 @@ $(document).ready(function() {
 });
 
 /**
- * Update choice number and reload to start.
+ * Save survey answers online and finish.
  */
-function start() {
-  $.ajax({
+function finish() {
+	var answers = [];
+	for(var i=1; i<=nrOfQns; i++) {
+		answers.push($('input[name=qn'+i+']:checked').val());
+	}
+
+	$.ajax({
     type: 'POST',
-    url: serverUrl + '/api/update/choicenumber',
+    url: serverUrl + '/api/update/answers',
     data: {
-      userid: userid
+      userid: userid,
+      answers: JSON.stringify(answers);
     },
     dataType: 'json',
     success: function() {
       confirmUnload = false;
-      location.reload();
+    	location.reload();
     },
     error: function(err) {
       console.log(err.responseText);
     }
   });
+}
+
+/**
+ * Check if all questions have been answered.
+ */
+function isSurveyComplete() {
+	for(var i=1; i<=nrOfQns; i++) {
+		if (!$('input[name=qn'+i+']:checked').length) {
+			return false;
+		}
+	}
+	return true;
 }
 
 /**

@@ -8,14 +8,16 @@ block content
     h2.title Select the movie you would like to see
     hr.style-four
   .content
-    .container-fluid
+    #infobox.container-fluid
       h4.stitched Remaining number of choices:  
         p#remNrOfChoices(style="display:inline")
           u
             strong
     .movie-descr.container-fluid
-      .trailer-container.col-xs-6
-        .trailer.bottom-shadow
+      .col-xs-6
+        h3.bottom-border(style='text-align: left;margin-top: 0') Trailer
+        .trailer-container
+          .trailer.bottom-shadow
       .movie-info.col-xs-6
         h4.bottom-border Summary
         p#moviesummary {summary}
@@ -25,20 +27,23 @@ block content
         p#moviedirector {director}
         h4.bottom-border Cast
         p#moviecast {cast}
-    .movies.container-fluid.inset-shadow
+    .movies.container-fluid
+      h3.bottom-border(style='text-align: left;') Movies
       - var n = 1;
-      ul.movieslist
+      ul.movieslist.inset-shadow
         while n++ <= 10
           li
             .cover.shadow
-              h4.covertext
+              h4.covertext.wordwrap
                 strong.movietitle {title}
-              h4.covertext
+              h4.covertext.wordwrap
                 strong.movieyear {year}
-              h4.covertext Hover for trailer 
+              h4.covertext.wordwrap Pause for trailer 
                 i.fa.fa-film
             br
             button.btn.btn-primary.select(type='button') Select
   .footer
     hr.style-four.upside-down
+
+block scripts
   script(type='text/javascript', rel='javascript', src='js/script-index.js')

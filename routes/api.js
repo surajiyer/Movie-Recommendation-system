@@ -17,7 +17,7 @@ router.get('/movies', function(req, res) {
   query[type] = id;
   collection.find(query, {}, function(err, docs) {
     if (err) return utils.sendErr(res, 'Could not get movie info.');
-    res.json(docs);
+    res.json({'success': true, 'result': docs});
   });
 });
 
@@ -28,7 +28,7 @@ router.get('/count', function(req, res, next) {
 
   collection.count({}, function(err, count) {
     if (err) return next(err);
-    res.send({'count': count});
+    res.json({'success': true, 'result': count});
   });
 });
 
@@ -41,73 +41,116 @@ router.get('/trailer', function(req, res, next) {
   var collection = db.get('movies');
 
   // Find movie in database
-  collection.find({_id: id}, {}, function(err, docs) {
+  collection.findById(id, function(err, docs) {
     if (err) return utils.sendErr(res, 'Failed to find movie.');
-    getID(docs[0].imdbID, getTrailer, res, next);
+    getID(docs.imdbID, getTrailer, res, next);
   });
 });
 
-/* POST update movies on page of user. */
-router.post('/update/movies', function(req, res, next) {
+/* POST events generated on page. */
+router.post('/update/event', function(req, res, next) {
   // Get the user id from the request
-  if (!(req.body.userID && req.body.movies)) return utils.sendErr(res, 'Missing parameter(s)');
-  var userID = utils.pad(req.body.userID, 12);
-  var movies = req.body.movies;
-  var db = req.db;
-  var users = db.get('users');
-
-  // Update movies in user session data
-  users.updateById(userID, {$set:{movies: movies}}, function(err) {
-  	if (err) return next(err);
-  	res.send('Ok');
-  });
-});
-
-/* POST update movies chosen movies by user. */
-router.post('/update/choices', function(req, res, next) {
-  // Get the user id from the request
-  if (!(req.body.userID && req.body.movie)) return utils.sendErr(res, 'Missing parameter(s)');
-  var userID = utils.pad(req.body.userID, 12);
-  var movie = req.body.movie;
-  var db = req.db;
-  var users = db.get('users');
-
-  // Update selected movie in user session data
-  users.updateById(userID, {$push:{choices: movie}}, function(err) {
-  	if (err) return next(err);
-  	res.send('Ok');
-  });
+  if (!(req.body.userid && req.body.event && typeof req.body.eventdesc != 'undefined')) 
+    return utils.sendErr(res, 'Missing parameter(s)');
+  var userid = utils.pad(req.body.userid, 12);
+  var event = req.body.event;
+  var eventdesc = req.body.eventdesc;
+  utils.updateEvent(req.db, event, eventdesc, userid, res);
+  res.json({'success': true});
 });
 
 /* POST update movies on page of user. */
 router.post('/update/choicenumber', function(req, res, next) {
   // Get the user id from the request
-  if (!req.body.userID) return utils.sendErr(res, 'Missing parameter(s)');
-  var userID = utils.pad(req.body.userID, 12);
+  if (!req.body.userid) return utils.sendErr(res, 'Missing parameter(s)');
+  var userid = utils.pad(req.body.userid, 12);
   var db = req.db;
   var users = db.get('users');
 
   // Update choice number in user session data
-  users.updateById(userID, {$inc: {choiceNumber: 1}}, {new: true}, 
-  	function(err, result) {
-	    if (err) return utils.sendErr(res, 'Failed to update movies list.');
-	    res.json(result);
-	  });
+  users.findAndModify({_id: userid}, {$inc: {choice_number: 1}}, {new: true}, function(err, docs) {
+    if (err) return utils.sendErr(res, 'Failed to update choice number.');
+    res.json({'success': true, 'result': docs.choice_number});
+  });
+});
+
+/* POST update movies choice set. */
+router.post('/update/movies', function(req, res, next) {
+  // Get the user id from the request
+  if (!(req.body.userid && req.body.movies)) return utils.sendErr(res, 'Missing parameter(s)');
+  var userid = utils.pad(req.body.userid, 12);
+  var movies = JSON.parse(req.body.movies);
+  var db = req.db;
+  var users = db.get('users');
+
+  // Update movies in user session data
+  users.updateById(userid, {$push:{choice_set: movies}}, function(err) {
+  	if (err) return next(err);
+  	res.json({'success': true});
+  });
+});
+
+/* POST update watched trailers. */
+router.post('/update/watchedtrailers', function(req, res, next) {
+  // Get the user id from the request
+  if (!(req.body.userid && req.body.movie)) return utils.sendErr(res, 'Missing parameter(s)');
+  var userid = utils.pad(req.body.userid, 12);
+  var movie = req.body.movie;
+  var db = req.db;  
+  var users = db.get('users');
+
+  // Update movie id whose trailer was watched
+  users.updateById(userid, {$addToSet:{watched_trailers: movie}}, function(err) {
+    if (err) return utils.sendErr(res, 'Failed to update watched trailer.');
+    res.json({'success': true});
+  });
+});
+
+/* POST update movies hovered/clicked on. */
+router.post('/update/hoveredmovies', function(req, res, next) {
+  // Get the user id from the request
+  if (!(req.body.userid && req.body.movie)) return utils.sendErr(res, 'Missing parameter(s)');
+  var userid = utils.pad(req.body.userid, 12);
+  var movie = req.body.movie;
+  var db = req.db;  
+  var users = db.get('users');
+
+  // Update movie id whose info was loaded
+  users.updateById(userid, {$addToSet:{hovered_movies: movie}}, function(err) {
+    if (err) return utils.sendErr(res, 'Failed to update hovered movies.');
+    res.json({'success': true});
+  });
+});
+
+/* POST update movies chosen by user. */
+router.post('/update/choices', function(req, res, next) {
+  // Get the user id from the request
+  if (!(req.body.userid && req.body.movie)) return utils.sendErr(res, 'Missing parameter(s)');
+  var userid = utils.pad(req.body.userid, 12);
+  var movie = req.body.movie;
+  var db = req.db;
+  var users = db.get('users');
+
+  // Update selected movie in user session data
+  users.updateById(userid, {$push:{choices: movie}}, function(err) {
+  	if (err) return next(err);
+  	res.json({'success': true});
+  });
 });
 
 /* POST update survey answers. */
 router.post('/update/answers', function(req, res, next) {
   // Get the user id from the request
-  if (!(req.body.userID && req.body.answers)) return utils.sendErr(res, 'Missing parameter(s)');
-  var userID = utils.pad(req.body.userID, 12);
-  var answers = req.body.answers;
+  if (!(req.body.userid && req.body.answers)) return utils.sendErr(res, 'Missing parameter(s)');
+  var userid = utils.pad(req.body.userid, 12);
+  var answers = JSON.parse(req.body.answers);
   var db = req.db;
   var users = db.get('users');
 
   // Update survey answers in user session data
-  users.updateById(userID, {$set:{answers: answers}}, function(err) {
+  users.updateById(userid, {$set:{answers: answers}}, function(err) {
   	if (err) return utils.sendErr(res, 'Failed to update survey answers.');
-  	res.send('Ok');
+  	res.json({'success': true});
   });
 });
 
@@ -124,7 +167,7 @@ function getID(imdbID, cb, res, next) {
     },
     json: true
   }, function(err, response, data) {
-    if (err || response.statusCode != 200) return utils.sendErr(res, "Could not find trailer. Code '1'.");
+    if (err || response.statusCode != 200) return utils.sendErr(res, 'Could not find trailer. Code "1".');
     var id = data.movie_results[0].id;
     cb(id, res, next);
   });
@@ -141,16 +184,15 @@ function getTrailer(id, res) {
     },
     json: true
   }, function(err, response, data) {
-    if (err || response.statusCode != 200) return utils.sendErr(res, "Could not find trailer. Code '2'.");
+    if (err || response.statusCode != 200) return utils.sendErr(res, 'Could not find trailer. Code "2".');
     var videos = data.results;
     for (var i in videos) {
       var video = videos[i];
       if (video.type == "Trailer" && video.key) {
-        res.send(video.key);
-        return;
+        return res.json({'success': true, 'result': video.key});
       }
     }
-    utils.sendErr(res, "Could not find trailer. Code '3'.");
+    utils.sendErr(res, 'Could not find trailer. Code "3".');
   });
 }
 

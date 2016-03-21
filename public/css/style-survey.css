@@ -1,0 +1,21 @@
+.content {
+  font-size: 18px;
+}
+
+#qns {
+	margin: auto;
+}
+
+table {
+  height: 80%;
+}
+
+th, td {
+	padding: 2px 20px 2px 20px;
+	align: center;
+}
+
+.table-row-heading {
+  font-size: 24px;
+  color: #33A3F3;
+}

@@ -1,16 +1,14 @@
 "use strict";
 var nrOfMovies = $('.movieslist li').length;
-var learnRate = 0.7;
-var discardRate = 0.2;
+var learnRate = "0,7";
+var discardRate = "0,2";
 var maxChoices = 10;
-var userID = data.userid;
+var diversification = '0,5';
+var userid = data.userid;
 var choiceNumber = data.choiceNumber;
-var movies = data.movies || [];
+var movies = JSON.parse(data.movies);
 var timer, delay = 1000;
-
-$.fn.exists = function() {
-  return this.length !== 0;
-};
+var currentTrailer = null, playing = false;
 
 $(document).ready(function() {
   // Update the remaining number of choices to make
@@ -33,21 +31,63 @@ $(document).ready(function() {
     // on mouse in, start a timeout
     var that = this;
     timer = setTimeout(function() {
-      // Find which movie was clicked
+      // Find which movie was hovered
       var moviePos = $(that).parent().index();
-      loadMovieDescription(moviePos);
-      loadTrailer(moviePos);
+      loadSelectedMovie(moviePos);
     }, delay);
   }, function() {
     // on mouse out, cancel the timer
     clearTimeout(timer);
   });
 
+  // Look for trailer when hovering over movie
+  $('.movieslist li .cover').select(function() {
+    // on mouse click, clear timeout
+    clearTimeout(timer);
+    // Find which movie was clicked
+    var moviePos = $(that).parent().index();
+    loadSelectedMovie(moviePos);
+  });
+
+  // Look for trailer play/pause click
+  $('.trailer').click(function(e) {
+    e.stopPropogation();
+    if(currentTrailer !== null) {
+      playing = !playing;
+      if(playing) {
+        postEvent('Playing trailer', currentTrailer);
+        updateWatchedTrailers(currentTrailer);
+      } else {
+        postEvent('Paused trailer', currentTrailer);
+      }
+    }
+  });
+
   $('.movieslist li .select').click(function() {
     // Find which movie was clicked
     var moviePos = $(this).parent().index();
     // Update choice number && Get new recommendations
-    getChoiceSet(movies[moviePos]._id, postChoiceNumber);
+    if(choiceNumber+1 < maxChoices)
+      getChoiceSet(moviePos);
+    else if(choiceNumber < maxChoices) {
+      // Change appearance of the infobox
+      getFinalRecommendationSet(moviePos);
+      //$('#infobox h4').animate({background: "#F3337A"}, "slow", "swing");
+      $('#infobox h4').css("background", "#F3337A");
+      $('#infobox h4').html('Final recommendation set');
+    }
+    else {
+      var promises = [];
+      promises.push(postChoices(movies[moviePos]._id));
+      promises.push(postEvent('Final movie selected', movies[moviePos]._id));
+
+      // When the final movie selected has been saved and the event logged,
+      $.when.apply($, promises).done(function() {
+        // Reload the page to the survey
+        confirmUnload = false;
+        location.reload();
+      });
+    }
   });
 
   // Make sure client wants leave
@@ -56,18 +96,29 @@ $(document).ready(function() {
       return 'We would really appreciate it if you could complete this survey for our course project.'
             + ' You can also come back to complete it later on from where you left.'; 
   });
+
+  $(window).unload(function() {
+    postEvent('Closed page', null);
+  });
 });
+
+function loadSelectedMovie(pos) {
+  loadMovieDescription(pos);
+  loadTrailer(pos);
+  postEvent('Selected movie', movies[pos]._id);
+  updateHoveredMovies(movies[pos]._id);
+}
 
 /**
  * Get the total number of movies in our database
  */
 function getMoviesCount(cb) {
-  $.ajax({
+  return $.ajax({
     type: 'GET',
     url: serverUrl + '/api/count',
     dataType: 'json',
     success: function(data) {
-      cb(data.count);
+      cb(data.result);
     },
     error: function(err) {
       console.log(err.responseText);
@@ -135,7 +186,7 @@ function getMovieInfo(mID, mType, cb) {
     },
     dataType: 'json',
     success: function(data) {
-      cb(data[0]);
+      cb(data.result[0]);
     },
     error: function(err) {
       console.log(err.responseText);
@@ -150,10 +201,12 @@ function loadTrailer(pos) {
   if(movies[pos]) {
     if (movies[pos].trailerKey) {
       embedTrailer(movies[pos].trailerKey);
+      playing = false;
     } else {
       getTrailer(movies[pos]._id, function(trailerKey) {
         movies[pos].trailerKey = trailerKey;
         embedTrailer(trailerKey);
+        currentTrailer = movies[pos]._id;
       });
     }
   }
@@ -173,22 +226,30 @@ function embedTrailer(key) {
  * Retreive trailer video data
  */
 function getTrailer(mID, cb) {
-  $.ajax({
+  return $.ajax({
     type: 'GET',
     url: serverUrl + '/api/trailer',
     data: {
       id: mID
     },
-    dataType: 'text',
+    dataType: 'json',
     success: function(data) {
-      cb(data);
+      cb(data.result);
     },
     error: function(err) {
-      $('.trailer').html(err.responseText);
+      $('.trailer').html(err.responseText.result);
+      currentTrailer = null;
+    },
+    complete: function() {
+      playing = false;
     }
   });
 }
 
+/**
+ * Load movie description like plot summary, cast, 
+ * genre and director on-screen.
+ */
 function loadMovieDescription(pos) {
   $('#moviesummary').text(movies[pos].summary);
   $('#moviegenres').text(movies[pos].Genres);
@@ -197,50 +258,42 @@ function loadMovieDescription(pos) {
 }
 
 /**
- * Get new recommendation set
+ * POST id of movie whose trailer was watched.
  */
-function getChoiceSet(mID, cb) {
-  $.ajax({
+function updateWatchedTrailers(mID) {
+  return $.ajax({
+    type: 'POST',
+    url: serverUrl + '/api/update/watchedTrailers',
+    data: {
+      userid: userid,
+      movie: mID
+    },
+    dataType: 'json',
+    error: function(err) {
+      console.log(err.responseText);
+    }
+  });
+}
+
+/**
+ * GET (POST) new recommendation set
+ */
+function getChoiceSet(pos, cb) {
+  return $.ajax({
     type: 'POST',
     url: 'http://131.155.121.165:8080/json/asynconeway/Choice',
     data: {
-      "userid": "" + userID,
-      "movieid": "" + mID,
-      "learn_rate": "" + learnRate,
-      "choice_number": "" + choiceNumber,
-      "discard_rate": "" + discardRate,
-      "number_of_candidates": "" + nrOfMovies
-      //"number_of_candidates": "" + (choiceNumber === maxChoices ? 5 : nrOfMovies)
+      userid: "" + userid,
+      movieid: "" + movies[pos].movieID,
+      learn_rate: learnRate,
+      choice_number: "" + choiceNumber,
+      discard_rate: discardRate,
+      number_of_candidates: "" + nrOfMovies
     },
     dataType: 'json',
     success: function(data) {
-      // First, reset movies list on-screen
-      resetMovies();
-
-      // Filter the new recommendation set
-      data = data.map(function(movie) {
-        if(movie.itemid > 0) return movie.itemid;
-      });
-
-      // Load the new recommendation set
-      var promises = [];
-      for(var i in data) {
-        var mID = data[i];
-        console.log(i+' '+mID);
-        promises.push(loadMovieInfo(i, mID, 'movieid'));
-      }
-
-      // Save the movie selected
-      postChoices(mID);
-
-      // When movie info is loaded for all movies
-      $.when.apply($, promises).done(function() {
-        // Update the movies list on the backend for the user
-        postMovies();
-      });
-
-      // Execute callback if any
-      if (typeof cb != 'undefined') cb();
+      // Load the new choice set
+      loadChoiceSet('Loaded choice set', movies[pos]._id, data);
     },
     error: function(err) {
       console.log(err.responseText);
@@ -249,24 +302,22 @@ function getChoiceSet(mID, cb) {
 }
 
 /**
- * Update choice number.
+ * POST update choice number.
  */
-function postChoiceNumber() {
-  $.ajax({
+function postChoiceNumber(cb) {
+  return $.ajax({
     type: 'POST',
-    url: serverUrl + '/api/update/choicenumber',
+    url: serverUrl + '/api/update/choiceNumber',
     data: {
-      userID: userID
+      userid: userid
     },
     dataType: 'json',
-    success: function(result) {
-      choiceNumber = result;
+    success: function(data) {
+      choiceNumber = data.result;
       refreshChoicesCount();
-      // Reload the page after maximum number of choices have been made
-      if(choiceNumber >= maxChoices) {
-        confirmUnload = false;
-        location.reload();
-      }
+
+      // Execute callback if any
+      if (typeof cb != 'undefined') cb();
     },
     error: function(err) {
       console.log(err.responseText);
@@ -279,7 +330,64 @@ function postChoiceNumber() {
  * be made on-screen.
  */
 function refreshChoicesCount() {
-  $('#remNrOfChoices strong').html(maxChoices-choiceNumber);
+  $('#remNrOfChoices strong').text(maxChoices-choiceNumber);
+}
+
+/**
+ * GET (POST) final recommendation set
+ */
+function getFinalRecommendationSet(pos, cb) {
+  return $.ajax({
+    type: 'POST',
+    url: 'http://131.155.121.165:8080/recommendation/'+userid+'/'+nrOfMovies+'/'+diversification,
+    data: {
+      format: 'json'
+    },
+    dataType: 'json',
+    success: function(data) {
+      // Load the new choice set
+      loadChoiceSet('Loaded final recommendation set', movies[pos]._id, data);
+    },
+    error: function(err) {
+      console.log(err.responseText);
+    }
+  });
+}
+
+/**
+ * Load the new choice set on-screen
+ */
+function loadChoiceSet(event, mID, data) {
+  // First, reset movies list on-screen
+  resetMovies();
+
+  // Filter the new recommendation set
+  data = data.map(function(movie) {
+    return movie.itemid;
+  });
+  data.shift();
+
+  // Load the new recommendation set
+  var promises = [];
+  for(var i in data) {
+    var mID = data[i];
+    promises.push(loadMovieInfo(i, mID, 'movieid'));
+  }
+
+  // Save the movie selected
+  postChoices(mID);
+
+  // Update choice number
+  postChoiceNumber(function() {
+    // Log choice set load event
+    postEvent(event, choiceNumber+1);
+  });
+
+  // When movie info is loaded for all movies
+  $.when.apply($, promises).done(function() {
+    // Update the movies list on the backend for the user
+    postMovies();
+  });
 }
 
 /**
@@ -296,23 +404,17 @@ function resetMovies() {
 }
 
 /**
- * Update the selected movie choice.
+ * POST update the selected movie choice.
  */
 function postChoices(mID) {
-  // FIXME
-  console.log(movies);
-  var movieIds = movies.map(function(movie) {
-    return movie._id;
-  });
-  // FIXME
-  console.log(movieIds);
-  $.ajax({
+  return $.ajax({
     type: 'POST',
     url: serverUrl + '/api/update/choices',
     data: {
-      userID: userID,
+      userid: userid,
       movie: mID
     },
+    dataType: 'json',
     error: function(err) {
       console.log(err.responseText);
     }
@@ -324,19 +426,54 @@ function postChoices(mID) {
  * to reload the same movies next time.
  */
 function postMovies() {
-  // FIXME
-  console.log(movies);
   var movieIds = movies.map(function(movie) {
     return movie._id;
   });
-  console.log(movieIds);
-  $.ajax({
+  return $.ajax({
     type: 'POST',
     url: serverUrl + '/api/update/movies',
     data: {
-      userID: userID,
-      movies: movieIds
+      userid: userid,
+      movies: JSON.stringify(movieIds)
     },
+    dataType: 'json',
+    error: function(err) {
+      console.log(err.responseText);
+    }
+  });
+}
+
+/**
+ * POST id of movie that was hovered/clicked on.
+ */
+function updateHoveredMovies(mID) {
+  return $.ajax({
+    type: 'POST',
+    url: serverUrl + '/api/update/hoveredmovies',
+    data: {
+      userid: userid,
+      movie: mID
+    },
+    dataType: 'json',
+    error: function(err) {
+      console.log(err.responseText);
+    }
+  });
+}
+
+/**
+ * Log any events on the backend.
+ */
+function postEvent(event, eventdesc) {
+  return $.ajax({
+    type: 'POST',
+    url: serverUrl + '/api/update/event',
+    data: {
+      userid: userid,
+      event: event,
+      eventdesc: eventdesc
+    },
+    dataType: 'json',
     error: function(err) {
       console.log(err.responseText);
     }
