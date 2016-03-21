@@ -4,23 +4,14 @@ var router = express.Router();
 var utils = require('./utils.js');
 var title = ' | MRS';
 
-router.get('/finish', function(req, res, next) {
-  res.render('survey', {
-    title: 'Final survey' + title,
-    data: {
-      userid: 'iyer'
-    }
-  });
+/* GET error if no user id specified in URL. */
+router.get('/', function(req, res, next) {
+  next(new Error("Please type in some unique user ID at the end of the URL after the '/'"));
 });
 
 /* GET Favicon interceptor */
 router.get('/favicon.ico', function (req, res) {
   res.end();
-});
-
-/* GET error if no user id specified in URL. */
-router.get('/', function(req, res, next) {
-  next(new Error("Please type in some unique user ID at the end of the URL after the '/'"));
 });
 
 /* GET home page. */

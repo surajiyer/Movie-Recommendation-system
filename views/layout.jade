@@ -19,7 +19,8 @@ html(lang='en')
   body
     block content
     script(type='text/javascript').
-        serverUrl = 'http://localhost:3000';
+        //serverUrl = 'http://localhost:3000';
+        serverUrl = 'https://use-mrs.herokuapp.com/';
         data=!{JSON.stringify(data)};
         confirmUnload = true;
         $('a').click(function() { confirmUnload = false});
