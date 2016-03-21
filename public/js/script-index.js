@@ -259,8 +259,8 @@ function loadTrailer(pos) {
  */
 function embedTrailer(key) {
   // Create and place the embed code on the page
-  $('.trailer > *').not('#player').remove();
-  $('#player').show();
+  // $('.trailer > *').not('#player').remove();
+  // $('#player').show();
   player.loadVideoById({'videoId': key});
   // var embed = '<iframe id="player" src="https://www.youtube.com/embed/' + key +
   //   '" frameborder="0" allowfullscreen class="video"></iframe>';
@@ -282,9 +282,11 @@ function getTrailer(mID, cb) {
       cb(data.result);
     },
     error: function(err) {
-      $('#player').hide();
-      $('.trailer').append(err.responseText.result);
+      // $('#player').hide();
+      // $('.trailer').append(err.responseText.result);
+      cb(null);
       currentTrailer = null;
+      console.log(err.responseText);
     }
   });
 }
