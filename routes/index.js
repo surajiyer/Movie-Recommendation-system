@@ -92,7 +92,8 @@ router.get('/:id', function(req, res, next) {
           data: {
             userid: userid,
             choiceNumber: doc.choice_number,
-            movies: JSON.stringify(doc.choice_set[doc.choice_number-1] || [])
+            movies: JSON.stringify(doc.choice_set[doc.choice_number-1] || []),
+            useTrailers: doc.use_trailers
           }
         }, function(err, html) {
           res.send(html);
