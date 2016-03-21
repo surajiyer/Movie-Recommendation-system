@@ -20,7 +20,7 @@ $(document).ready(function() {
   });
 
   $(window).unload(function() {
-    postEvent('Closed page', null);
+    postEvent('Closed connection', null);
   });
 });
 
@@ -38,7 +38,7 @@ function finish() {
     url: serverUrl + '/api/update/answers',
     data: {
       userid: userid,
-      answers: JSON.stringify(answers);
+      answers: JSON.stringify(answers)
     },
     dataType: 'json',
     success: function() {

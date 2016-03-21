@@ -72,8 +72,10 @@ $(document).ready(function() {
     else if(choiceNumber < maxChoices) {
       // Change appearance of the infobox
       getFinalRecommendationSet(moviePos);
-      //$('#infobox h4').animate({background: "#F3337A"}, "slow", "swing");
-      $('#infobox h4').css("background", "#F3337A");
+      $('#infobox h4').css({
+        "background": "#F3337A",
+        "box-shadow": "0 0 0 4px #F3337A, 2px 1px 6px 4px rgba(10, 10, 0, 0.5)"
+      });
       $('#infobox h4').html('Final recommendation set');
     }
     else {
@@ -98,7 +100,7 @@ $(document).ready(function() {
   });
 
   $(window).unload(function() {
-    postEvent('Closed page', null);
+    postEvent('Closed connection', null);
   });
 });
 
@@ -201,6 +203,7 @@ function loadTrailer(pos) {
   if(movies[pos]) {
     if (movies[pos].trailerKey) {
       embedTrailer(movies[pos].trailerKey);
+      currentTrailer = movies[pos]._id;
       playing = false;
     } else {
       getTrailer(movies[pos]._id, function(trailerKey) {
@@ -338,7 +341,7 @@ function refreshChoicesCount() {
  */
 function getFinalRecommendationSet(pos, cb) {
   return $.ajax({
-    type: 'POST',
+    type: 'GET',
     url: 'http://131.155.121.165:8080/recommendation/'+userid+'/'+nrOfMovies+'/'+diversification,
     data: {
       format: 'json'

@@ -25,7 +25,7 @@ $(document).ready(function() {
   });
 
   $(window).unload(function() {
-    postEvent('Closed page', null);
+    postEvent('Closed connection', null);
   });
 });
 

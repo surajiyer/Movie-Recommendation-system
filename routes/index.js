@@ -41,7 +41,7 @@ router.get('/:id', function(req, res, next) {
         watched_trailers: [],
         hovered_movies: [],
         choices: [],
-        answers: [] 
+        answers: null 
       }, function(err) {
         if (err) return next(err);
         res.render('intro', {
