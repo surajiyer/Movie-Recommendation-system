@@ -190,10 +190,10 @@ function loadMovieInfo(itemNr, mID, mType) {
 
     // Load the correct poster URL
     var pictureURL;
-    if(movieInfo.imdbPictureURL.length > 0)
-      pictureURL = movieInfo.imdbPictureURL;
-    else if (movieInfo.rtPictureURL.length > 0) 
+    if (movieInfo.rtPictureURL.length > 0) 
       pictureURL = movieInfo.rtPictureURL;
+    else if(movieInfo.imdbPictureURL.length > 0)
+      pictureURL = movieInfo.imdbPictureURL;
     else
       pictureURL = 'http://marvelmoviemarathon.com/posters/placeholder.png';
 
