@@ -106,6 +106,22 @@ router.post('/update/watchedtrailers', function(req, res, next) {
   });
 });
 
+/* POST update to use trailers or not. */
+router.post('/update/usetrailers', function(req, res, next) {
+  // Get the user id from the request
+  if (!(req.body.userid && req.body.useTrailers)) return utils.sendErr(res, 'Missing parameter(s)');
+  var userid = utils.pad(req.body.userid, 12);
+  var useTrailers = req.body.useTrailers;
+  var db = req.db;  
+  var users = db.get('users');
+
+  // Update movie id whose trailer was watched
+  users.updateById(userid, {$set:{use_trailers: useTrailers}}, function(err) {
+    if (err) return utils.sendErr(res, 'Failed to update trailer usage.');
+    res.json({'success': true});
+  });
+});
+
 /* POST update movies hovered/clicked on. */
 router.post('/update/hoveredmovies', function(req, res, next) {
   // Get the user id from the request

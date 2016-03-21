@@ -1,14 +1,15 @@
 "use strict";
 var nrOfMovies = $('.movieslist li').length;
 var learnRate = "0,7";
-var discardRate = "0,2";
+var discardRate = "0,5";
 var maxChoices = 10;
 var diversification = '0,5';
 var userid = data.userid;
 var choiceNumber = data.choiceNumber;
 var movies = JSON.parse(data.movies);
+var player, useTrailerProbability = 0.7, useTrailers;
 var timer, delay = 1000;
-var currentTrailer = null, playing = false;
+var currentTrailer = null;
 
 $(document).ready(function() {
   // Update the remaining number of choices to make
@@ -18,12 +19,28 @@ $(document).ready(function() {
   if (choiceNumber === 0) {
     // Load random set of movies
     loadRandomMovies();
+    useTrailers = data.useTrailers || Math.random() < useTrailerProbability;
+    updateUseTrailers();
   } else {
     // Load movies from last session
     for(var i in movies) {
       var mID = movies[i];
       loadMovieInfo(i, mID, 'id');
     }
+  }
+
+  // Randomly select if to play trailers or not
+  if(useTrailers) {
+    // Load the Youtube IFrame API
+    $.getScript('https://www.youtube.com/iframe_api');
+  } else {
+    $('.trailer-container').parent().hide();
+    $('.movie-info')
+      .removeClass('col-xs-6')
+      .css({
+        "margin":"0 auto",
+        "width":"75%"
+      });
   }
 
   // Look for trailer when hovering over movie
@@ -47,20 +64,6 @@ $(document).ready(function() {
     // Find which movie was clicked
     var moviePos = $(that).parent().index();
     loadSelectedMovie(moviePos);
-  });
-
-  // Look for trailer play/pause click
-  $('.trailer').click(function(e) {
-    e.stopPropogation();
-    if(currentTrailer !== null) {
-      playing = !playing;
-      if(playing) {
-        postEvent('Playing trailer', currentTrailer);
-        updateWatchedTrailers(currentTrailer);
-      } else {
-        postEvent('Paused trailer', currentTrailer);
-      }
-    }
   });
 
   $('.movieslist li .select').click(function() {
@@ -104,9 +107,46 @@ $(document).ready(function() {
   });
 });
 
+/**
+ * Callback for when youtube IFrame script loads.
+ * Load the youtube player.
+ */
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('player', {
+    videoId: '',
+    events: {
+      'onReady': onPlayerReady,
+      'onStateChange': onPlayerStateChange
+    }
+  });
+}
+
+/**
+ * Callback for when youtube player is loaded.
+ */
+function onPlayerReady() {
+  $('#player').addClass('video');
+}
+
+/**
+ * Callback for when youtube player state changes.
+ */
+function onPlayerStateChange(e) {
+  if(e.data == YT.PlayerState.PLAYING) {
+    if(currentTrailer !== null) {
+      updateWatchedTrailers(currentTrailer);
+      currentTrailer = null;
+    }
+  }
+}
+
+/**
+ * Load the movie info, trailer and send events when
+ * movie has been hovered/selected.
+ */
 function loadSelectedMovie(pos) {
   loadMovieDescription(pos);
-  loadTrailer(pos);
+  if(useTrailers) loadTrailer(pos);
   postEvent('Selected movie', movies[pos]._id);
   updateHoveredMovies(movies[pos]._id);
 }
@@ -204,7 +244,6 @@ function loadTrailer(pos) {
     if (movies[pos].trailerKey) {
       embedTrailer(movies[pos].trailerKey);
       currentTrailer = movies[pos]._id;
-      playing = false;
     } else {
       getTrailer(movies[pos]._id, function(trailerKey) {
         movies[pos].trailerKey = trailerKey;
@@ -220,9 +259,12 @@ function loadTrailer(pos) {
  */
 function embedTrailer(key) {
   // Create and place the embed code on the page
-  var embed = '<iframe src="https://www.youtube.com/embed/' + key +
-    '" frameborder="0" allowfullscreen class="video"></iframe>';
-  $('.trailer').html(embed);
+  $('.trailer > *').not('#player').remove();
+  $('#player').show();
+  player.loadVideoById({'videoId': key});
+  // var embed = '<iframe id="player" src="https://www.youtube.com/embed/' + key +
+  //   '" frameborder="0" allowfullscreen class="video"></iframe>';
+  // $('.trailer').html(embed);
 }
 
 /**
@@ -240,11 +282,9 @@ function getTrailer(mID, cb) {
       cb(data.result);
     },
     error: function(err) {
-      $('.trailer').html(err.responseText.result);
+      $('#player').hide();
+      $('.trailer').append(err.responseText.result);
       currentTrailer = null;
-    },
-    complete: function() {
-      playing = false;
     }
   });
 }
@@ -266,7 +306,7 @@ function loadMovieDescription(pos) {
 function updateWatchedTrailers(mID) {
   return $.ajax({
     type: 'POST',
-    url: serverUrl + '/api/update/watchedTrailers',
+    url: serverUrl + '/api/update/watchedtrailers',
     data: {
       userid: userid,
       movie: mID
@@ -456,6 +496,24 @@ function updateHoveredMovies(mID) {
     data: {
       userid: userid,
       movie: mID
+    },
+    dataType: 'json',
+    error: function(err) {
+      console.log(err.responseText);
+    }
+  });
+}
+
+/**
+ * POST update to use trailers or not.
+ */
+function updateUseTrailers() {
+  return $.ajax({
+    type: 'POST',
+    url: serverUrl + '/api/update/usetrailers',
+    data: {
+      userid: userid,
+      useTrailers: useTrailers
     },
     dataType: 'json',
     error: function(err) {
