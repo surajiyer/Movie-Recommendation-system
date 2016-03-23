@@ -1,5 +1,5 @@
 .content {
-  font-size: 18px;
+	font-size: 18px;
 }
 
 #qns {
@@ -7,7 +7,7 @@
 }
 
 table {
-  height: 80%;
+	height: 80%;
 }
 
 th, td {
@@ -16,6 +16,10 @@ th, td {
 }
 
 .table-row-heading {
-  font-size: 24px;
-  color: #33A3F3;
+	font-size: 24px;
+	color: #33A3F3;
+}
+
+.blank-row {
+	height: 20px;
 }
