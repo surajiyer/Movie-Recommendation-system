@@ -9,6 +9,11 @@ router.get('/', function(req, res, next) {
   next(new Error("Please type in some unique user ID at the end of the URL after the '/'"));
 });
 
+/* GET N interceptor */
+router.get('/N', function (req, res) {
+  res.end();
+});
+
 /* GET Favicon interceptor */
 router.get('/favicon.ico', function (req, res) {
   res.end();
@@ -27,6 +32,7 @@ router.get('/:id', function(req, res, next) {
     if (doc === null) {
       return users.insert({
         _id: userid,
+        userid: userid,
         choice_number: -1,
         choice_set: [],
         watched_trailers: [],
