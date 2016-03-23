@@ -382,7 +382,8 @@ function refreshChoicesCount() {
 function getFinalRecommendationSet(pos, cb) {
   return $.ajax({
     type: 'GET',
-    url: 'http://131.155.121.165:8080/recommendation/'+userid+'/'+nrOfMovies+'/'+diversification,
+    url: 'http://131.155.121.165:8080/recommendation/'+userid+'/'
+        +nrOfMovies+'/'+diversification+'/alternative',
     data: {
       format: 'json'
     },
