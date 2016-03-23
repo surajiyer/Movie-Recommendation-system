@@ -20,7 +20,7 @@ $(document).ready(function() {
     // Load random set of movies
     loadRandomMovies();
     useTrailers = Math.random() < useTrailerProbability;
-    if(!usetrailers) updateUseTrailers();
+    if(!useTrailers) updateUseTrailers();
   } else {
     // Load movies from last session
     for(var i in movies) {
