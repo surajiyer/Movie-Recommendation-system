@@ -338,7 +338,9 @@ function getChoiceSet(pos, cb) {
     dataType: 'json',
     success: function(data) {
       // Load the new choice set
-      loadChoiceSet('Loaded choice set', movies[pos]._id, data);
+      setTimeout(function() {
+        loadChoiceSet('Loaded choice set', movies[pos]._id, data);
+      }, delay);
     },
     error: function(err) {
       console.log(err.responseText);
@@ -391,7 +393,9 @@ function getFinalRecommendationSet(pos, cb) {
     dataType: 'json',
     success: function(data) {
       // Load the new choice set
-      loadChoiceSet('Loaded final recommendation set', movies[pos]._id, data);
+      setTimeout(function() {
+        loadChoiceSet('Loaded final recommendation set', movies[pos]._id, data);
+      }, delay);
     },
     error: function(err) {
       console.log(err.responseText);
