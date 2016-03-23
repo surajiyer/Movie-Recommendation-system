@@ -21,10 +21,10 @@ var sendErr = function(res, msg) {
 var updateEvent = function(db, event, eventdesc, userid, res) {
 	var events = db.get('events');
 	events.insert({
-		timestamp: new Date(), 
-		event: event, 
-		decr: eventdesc, 
-		userid: userid
+		timestamp: new Date().getTime() / 1000, // number of seconds since epoch
+		event: event, // event name
+		decr: eventdesc, // event description
+		userid: userid // user who generated the event
 	}, function(err) {
 		if (err) return sendErr(res, 'Failed to log event.');
 	});
