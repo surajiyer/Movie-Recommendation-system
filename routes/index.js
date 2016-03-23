@@ -35,10 +35,11 @@ router.get('/:id', function(req, res, next) {
         userid: userid,
         choice_number: -1,
         choice_set: [],
+        use_trailers: true,
         watched_trailers: [],
         hovered_movies: [],
         choices: [],
-        answers: null 
+        answers: null
       }, function(err) {
         if (err) return next(err);
         res.render('intro', {

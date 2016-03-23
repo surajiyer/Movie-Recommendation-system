@@ -7,7 +7,7 @@ var diversification = '0,5';
 var userid = data.userid;
 var choiceNumber = data.choiceNumber;
 var movies = JSON.parse(data.movies);
-var player, useTrailerProbability = 0.7, useTrailers;
+var player, useTrailerProbability = 0.7, useTrailers = data.useTrailers;
 var timer, delay = 1000;
 var currentTrailer = null;
 
@@ -19,8 +19,8 @@ $(document).ready(function() {
   if (choiceNumber === 0) {
     // Load random set of movies
     loadRandomMovies();
-    useTrailers = data.useTrailers || Math.random() < useTrailerProbability;
-    updateUseTrailers();
+    useTrailers = Math.random() < useTrailerProbability;
+    if(!usetrailers) updateUseTrailers();
   } else {
     // Load movies from last session
     for(var i in movies) {
