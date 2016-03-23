@@ -111,8 +111,8 @@ router.post('/update/usetrailers', function(req, res, next) {
   // Get the user id from the request
   if (!(req.body.userid && req.body.useTrailers)) return utils.sendErr(res, 'Missing parameter(s)');
   var userid = utils.pad(req.body.userid, 12);
-  var useTrailers = req.body.useTrailers;
-  var db = req.db;  
+  var useTrailers = (req.body.useTrailers == "true");
+  var db = req.db;
   var users = db.get('users');
 
   // Update movie id whose trailer was watched
