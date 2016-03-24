@@ -17,10 +17,15 @@ html(lang='en')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js', integrity='sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS', crossorigin='anonymous')
     block head
   body
-    block content
+    #header
+        .container
+            block header
+    #content.container
+        block content
+    #footer
+        .container
+            block footer
     script(type='text/javascript').
-        serverUrl = 'https://use-mrs.herokuapp.com';
-        //serverUrl = 'http://localhost:3000';
         data=!{JSON.stringify(data)};
         confirmUnload = true;
         $('a').click(function() { confirmUnload = false});

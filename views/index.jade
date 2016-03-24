@@ -3,48 +3,45 @@ extends layout
 block head
   link(rel='stylesheet', type='text/css', href='css/style-index.css')
 
+block header
+  h2#title Select the movie you would like to see
+
 block content
-  .header
-    h2.title Select the movie you would like to see
-    hr.style-four
-  .content
-    #infobox.container-fluid
-      h4.stitched Remaining number of choices:  
-        p#remNrOfChoices(style="display:inline")
-          u
-            strong
-    .movie-descr.container-fluid
-      .col-xs-6
-        h3.bottom-border(style='text-align: left;margin-top: 0') Trailer
-        .trailer-container
-          .trailer.bottom-shadow
-            #player
-      .movie-info.col-xs-6
-        h4.bottom-border Summary
-        p#moviesummary {summary}
-        h4.bottom-border Genres
-        p#moviegenres {genres}
-        h4.bottom-border Director
-        p#moviedirector {director}
-        h4.bottom-border Cast
-        p#moviecast {cast}
-    .movies.container-fluid
-      h3.bottom-border(style='text-align: left;') Movies
-      - var n = 1;
-      ul.movieslist.inset-shadow
-        while n++ <= 10
-          li
-            .cover.shadow
-              h4.covertext.wordwrap
-                strong.movietitle {title}
-              h4.covertext.wordwrap
-                strong.movieyear {year}
-              h4.covertext.wordwrap Pause for trailer 
-                i.fa.fa-film
-            br
-            button.btn.btn-primary.select(type='button') Select
-  .footer
-    hr.style-four.upside-down
+  #infobox.container-fluid
+    h4.stitched Remaining number of choices:  
+      p#remNrOfChoices(style="display:inline")
+        u
+          strong
+  #movie-descr.container-fluid
+    .col-sm-6
+      h3.bottom-border(style='text-align: left;margin-top: 0') Trailer
+      .trailer-container
+        .trailer.bottom-shadow
+          #player
+    .movie-info.col-sm-6
+      h4.bottom-border Summary
+      p#moviesummary {summary}
+      h4.bottom-border Genres
+      p#moviegenres {genres}
+      h4.bottom-border Director
+      p#moviedirector {director}
+      h4.bottom-border Cast
+      p#moviecast {cast}
+  #movies.container-fluid
+    h3.bottom-border(style='text-align: left;') Movies
+    - var n = 1;
+    ul.movieslist.inset-shadow
+      while n++ <= 10
+        li
+          .cover.shadow
+            h4.covertext.wordwrap
+              strong.movietitle {title}
+            h4.covertext.wordwrap
+              strong.movieyear {year}
+            h4.covertext.wordwrap Pause for trailer 
+              i.fa.fa-film
+          br
+          button.btn.btn-primary.select(type='button') Select
 
 block scripts
   script(type='text/javascript', rel='javascript', src='js/script-index.js')

@@ -35,7 +35,7 @@ function finish() {
 
 	$.ajax({
     type: 'POST',
-    url: serverUrl + '/api/update/answers',
+    url: '/api/update/answers',
     data: {
       userid: userid,
       answers: JSON.stringify(answers)
@@ -43,7 +43,7 @@ function finish() {
     dataType: 'json',
     success: function() {
       confirmUnload = false;
-    	location.reload();
+    	location.reload(true);
     },
     error: function(err) {
       console.log(err.responseText);
@@ -69,7 +69,7 @@ function isSurveyComplete() {
 function postEvent(event, eventdesc) {
   $.ajax({
     type: 'POST',
-    url: serverUrl + '/api/update/event',
+    url: '/api/update/event',
     data: {
       userid: userid,
       event: event,

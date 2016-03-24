@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var utils = require('./utils.js');
 var title = ' | MRS';
+var useTrailerProbability = 0.5;
 
 /* GET error if no user id specified in URL. */
 router.get('/', function(req, res, next) {
@@ -35,7 +36,7 @@ router.get('/:id', function(req, res, next) {
         userid: userid,
         choice_number: -1,
         choice_set: [],
-        use_trailers: true,
+        use_trailers: Math.random() < useTrailerProbability,
         watched_trailers: [],
         hovered_movies: [],
         choices: [],

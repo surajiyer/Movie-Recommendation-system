@@ -1,16 +1,8 @@
-.content {
-  overflow: hidden;
-}
-
-.style-four {
-  margin-bottom: 5px;
-}
-
-.container-fluid {
+  .container-fluid {
   margin-bottom: 10px;
 }
 
-.movie-descr {
+#movie-descr {
   display: inline-block;
   width: 100%;
   height: 34vh;
@@ -37,7 +29,7 @@
   height: 100%;
 }
 
-.movies {
+#movies {
   display: block;
   padding: 0 30px;
 }
@@ -45,17 +37,15 @@
 .movieslist {
   padding: 16px;
   margin-bottom: 0;
-  border: 0.25px solid #2F353F;
+  border: 0.25px solid #CACACA;
   border-radius: 4px;
-  overflow-y: hidden;
-  overflow-x: scroll;
+  overflow: auto;
   white-space: nowrap;
 }
 
 .movieslist > li {
   display: inline-block;
-  margin-right: 4px;
-  margin-left: 4px;
+  margin: 0 4px;
 }
 
 .cover {
@@ -98,13 +88,19 @@
   margin-bottom: 4px;
 }
 
+@media (max-width: 768px) {
+  .covertext {
+    font-size: 12px;
+  }
+}
+
 .cover:hover .covertext {
   display: block;
 }
 
 .movie-info {
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 

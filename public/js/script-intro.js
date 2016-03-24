@@ -3,12 +3,12 @@ var userid = data.userid;
 
 $(document).ready(function() {
   // Display the instructions
-  $('.explanation, #start').hide();
+  $('#explanation, #start').hide();
   $('#agree').click(function() {
     postEvent('Clicked "Agree"', null);
-    $('.consent-request').fadeOut("slow", function() {
-      $('.consent-request, #agree').hide();
-      $('.explanation, #start').show().fadeIn("slow");
+    $('#consent-request').fadeOut("slow", function() {
+      $('#consent-request, #agree').hide();
+      $('#explanation, #start').show().fadeIn("slow");
     });
   });
 
@@ -35,14 +35,14 @@ $(document).ready(function() {
 function start() {
   $.ajax({
     type: 'POST',
-    url: serverUrl + '/api/update/choicenumber',
+    url: '/api/update/choicenumber',
     data: {
       userid: userid
     },
     dataType: 'json',
     success: function() {
       confirmUnload = false;
-      location.reload();
+      location.reload(true);
     },
     error: function(err) {
       console.log(err.responseText);
@@ -56,7 +56,7 @@ function start() {
 function postEvent(event, eventdesc) {
   $.ajax({
     type: 'POST',
-    url: serverUrl + '/api/update/event',
+    url: '/api/update/event',
     data: {
       userid: userid,
       event: event,

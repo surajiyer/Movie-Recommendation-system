@@ -19,12 +19,7 @@ button.btn-primary:focus:active {
   border-color: #398439;
 }*/
 
-.content {
+#instructions {
   font-size: 18px;
-}
-
-@media (min-width: 1110px) {
-  .content {
-    overflow: hidden;
-  }
+  text-align: left;
 }

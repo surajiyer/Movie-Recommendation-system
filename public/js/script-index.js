@@ -3,13 +3,12 @@ var nrOfMovies = $('.movieslist li').length;
 var learnRate = "0,7";
 var discardRate = "0,5";
 var maxChoices = 10;
-var diversification = '0,5';
+var diversification = '0,7';
 var userid = data.userid;
 var choiceNumber = data.choiceNumber;
 var movies = JSON.parse(data.movies);
-var player, useTrailerProbability = 0.7, useTrailers = data.useTrailers;
+var player, useTrailers = data.useTrailers, currentTrailer = null;
 var timer, delay = 1000;
-var currentTrailer = null;
 
 $(document).ready(function() {
   // Update the remaining number of choices to make
@@ -19,8 +18,6 @@ $(document).ready(function() {
   if (choiceNumber === 0) {
     // Load random set of movies
     loadRandomMovies();
-    useTrailers = Math.random() < useTrailerProbability;
-    if(!useTrailers) updateUseTrailers();
   } else {
     // Load movies from last session
     for(var i in movies) {
@@ -36,7 +33,7 @@ $(document).ready(function() {
   } else {
     $('.trailer-container').parent().hide();
     $('.movie-info')
-      .removeClass('col-xs-6')
+      .removeClass('col-sm-6')
       .css({
         "margin":"0 auto",
         "width":"75%"
@@ -62,7 +59,7 @@ $(document).ready(function() {
     // on mouse click, clear timeout
     clearTimeout(timer);
     // Find which movie was clicked
-    var moviePos = $(that).parent().index();
+    var moviePos = $(this).parent().index();
     loadSelectedMovie(moviePos);
   });
 
@@ -90,7 +87,7 @@ $(document).ready(function() {
       $.when.apply($, promises).done(function() {
         // Reload the page to the survey
         confirmUnload = false;
-        location.reload();
+        location.reload(true);
       });
     }
   });
@@ -157,7 +154,7 @@ function loadSelectedMovie(pos) {
 function getMoviesCount(cb) {
   return $.ajax({
     type: 'GET',
-    url: serverUrl + '/api/count',
+    url: '/api/count',
     dataType: 'json',
     success: function(data) {
       cb(data.result);
@@ -221,7 +218,7 @@ function getMovieInfo(mID, mType, cb) {
 
   return $.ajax({
     type: 'GET',
-    url: serverUrl + '/api/movies',
+    url: '/api/movies',
     data: {
       id: mID,
       type: mType
@@ -271,7 +268,7 @@ function embedTrailer(key) {
 function getTrailer(mID, cb) {
   return $.ajax({
     type: 'GET',
-    url: serverUrl + '/api/trailer',
+    url: '/api/trailer',
     data: {
       id: mID
     },
@@ -304,7 +301,7 @@ function loadMovieDescription(pos) {
 function updateWatchedTrailers(mID) {
   return $.ajax({
     type: 'POST',
-    url: serverUrl + '/api/update/watchedtrailers',
+    url: '/api/update/watchedtrailers',
     data: {
       userid: userid,
       movie: mID
@@ -350,7 +347,7 @@ function getChoiceSet(pos, cb) {
 function postChoiceNumber(cb) {
   return $.ajax({
     type: 'POST',
-    url: serverUrl + '/api/update/choiceNumber',
+    url: '/api/update/choiceNumber',
     data: {
       userid: userid
     },
@@ -455,7 +452,7 @@ function resetMovies() {
 function postChoices(mID) {
   return $.ajax({
     type: 'POST',
-    url: serverUrl + '/api/update/choices',
+    url: '/api/update/choices',
     data: {
       userid: userid,
       movie: mID
@@ -477,7 +474,7 @@ function postMovies() {
   });
   return $.ajax({
     type: 'POST',
-    url: serverUrl + '/api/update/movies',
+    url: '/api/update/movies',
     data: {
       userid: userid,
       movies: JSON.stringify(movieIds)
@@ -495,28 +492,10 @@ function postMovies() {
 function updateHoveredMovies(mID) {
   return $.ajax({
     type: 'POST',
-    url: serverUrl + '/api/update/hoveredmovies',
+    url: '/api/update/hoveredmovies',
     data: {
       userid: userid,
       movie: mID
-    },
-    dataType: 'json',
-    error: function(err) {
-      console.log(err.responseText);
-    }
-  });
-}
-
-/**
- * POST update to use trailers or not.
- */
-function updateUseTrailers() {
-  return $.ajax({
-    type: 'POST',
-    url: serverUrl + '/api/update/usetrailers',
-    data: {
-      userid: userid,
-      useTrailers: useTrailers
     },
     dataType: 'json',
     error: function(err) {
@@ -531,7 +510,7 @@ function updateUseTrailers() {
 function postEvent(event, eventdesc) {
   return $.ajax({
     type: 'POST',
-    url: serverUrl + '/api/update/event',
+    url: '/api/update/event',
     data: {
       userid: userid,
       event: event,
