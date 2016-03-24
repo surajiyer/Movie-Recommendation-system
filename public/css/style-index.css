@@ -2,6 +2,10 @@
   margin-bottom: 10px;
 }
 
+#remNrOfChoices {
+  display: inline;
+}
+
 #movie-descr {
   display: inline-block;
   width: 100%;

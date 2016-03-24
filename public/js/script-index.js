@@ -55,7 +55,7 @@ $(document).ready(function() {
   });
 
   // Look for trailer when hovering over movie
-  $('.movieslist li .cover').select(function() {
+  $('.movieslist li .cover').click(function() {
     // on mouse click, clear timeout
     clearTimeout(timer);
     // Find which movie was clicked
